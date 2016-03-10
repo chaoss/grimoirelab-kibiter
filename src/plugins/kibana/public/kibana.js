@@ -13,7 +13,7 @@ const modules = require('ui/modules');
 const Scanner = require('ui/utils/scanner');
 const _ = require('lodash');
 
-var kibanaLogoUrl = require('ui/images/bitergia.png');
+var kibanaLogoUrl = require('ui/images/bitergia-analytics-logo.png');
 
 function setTabs(metadashboards) {
   var tabs = [];
@@ -33,13 +33,14 @@ routes
 chrome
 .setBrand({
   'logo': 'url(' + kibanaLogoUrl + ') left no-repeat',
-  'smallLogo': 'url(' + kibanaLogoUrl + ') left no-repeat'
+  'smallLogo': 'url(' + kibanaLogoUrl + ') left no-repeat',
+  'title': ''
 })
 .setNavBackground('#333333')
 .setTabDefaults({
   resetWhenActive: true,
   lastUrlStore: window.sessionStore,
-  activeIndicatorColor: '#C43422;'
+  activeIndicatorColor: '#ED9C06;'
 })
 .setRootController('kibana', function ($scope, $rootScope, courier, config, es, kbnIndex) {
   function setDefaultTimezone() {

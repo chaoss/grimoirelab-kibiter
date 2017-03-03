@@ -25,7 +25,7 @@ if [ "$1" = 'kibana' ]; then
         fi
 
         if [ "$PROJECT_NAME" != "" ]; then
-                sed -e "s/'title': ''$/'title': '$PROJECT_NAME'/" -i /opt/kibana/src/core_plugins/kibana/public/kibana.js
+                sed -e "s/title: 'Kibana',$/title: '$PROJECT_NAME',/" -i /opt/kibana/src/core_plugins/kibana/index.js
         fi
 
 	set -- gosu kibana "$@"

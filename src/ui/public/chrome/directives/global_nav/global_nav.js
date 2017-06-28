@@ -6,9 +6,11 @@ import globalNavTemplate from './global_nav.html';
 import './global_nav.less';
 import uiModules from 'ui/modules';
 
+import Scanner from 'ui/utils/scanner';
+
 const module = uiModules.get('kibana');
 
-module.directive('globalNav', globalNavState => {
+module.directive('globalNav', (es, kbnIndex, globalNavState) => {
   return {
     restrict: 'E',
     replace: true,
@@ -45,6 +47,25 @@ module.directive('globalNav', globalNavState => {
         event.preventDefault();
         globalNavState.setOpen(!globalNavState.isOpen());
       };
+
+      function getMetaDashboards() {
+        var queryString = '';
+        var pageSize = 1000;
+
+        var scanner = new Scanner(es, {
+          index: kbnIndex,
+          type: 'metadashboard'
+        });
+
+        return scanner.scanAndMap(queryString, {
+          pageSize,
+          docCount: Infinity
+        }, function (hit) {return hit;});
+      }
+
+      getMetaDashboards().then(function (results) {
+        scope.metadash = results.hits[0]._source;
+      });
 
     }
   };

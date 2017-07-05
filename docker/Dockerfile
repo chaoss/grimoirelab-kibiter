@@ -4,7 +4,7 @@ MAINTAINER David Pose <dpose@bitergia.com>, Alvaro del Castillo <acs@bitergia.co
 # Image for developing Kibiter/Kibana
 
 # ENV KIBANA_BRANCH master
-ENV KIBANA_BRANCH 5.4.0
+ENV KIBANA_BRANCH integration-5.4.0-public
 
 # add our user and group first to make sure their IDs get assigned consistently
 RUN groupadd --system kibana && \

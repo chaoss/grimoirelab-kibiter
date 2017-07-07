@@ -194,6 +194,11 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
         $scope.topNavMenu = getTopNavConfig(newMode, navActions); // eslint-disable-line no-use-before-define
         dashboardState.switchViewMode(newMode);
         $scope.dashboardViewMode = newMode;
+        if(newMode == DashboardViewMode.VIEW){
+          $scope.$root.showDefaultMenu = false;
+        }else if(newMode == DashboardViewMode.EDIT){
+          $scope.$root.showDefaultMenu = true;
+        }
       }
 
       const onChangeViewMode = (newMode) => {

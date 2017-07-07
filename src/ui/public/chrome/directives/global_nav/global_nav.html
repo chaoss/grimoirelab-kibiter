@@ -8,32 +8,100 @@
   <div class="global-nav__logo">
     <li
       ng-if="!logoBrand && !smallLogoBrand"
-      aria-label="{{ appTitle }} Logo"
+      aria-label="Bitergia Logo"
       class="logo kibana"
     ></li>
 
     <li
       ng-if="logoBrand"
       ng-style="{ 'background': logoBrand }"
-      aria-label="{{ appTitle }} Logo"
+      aria-label="Bitergia Logo"
       class="logo hidden-sm"
     ></li>
 
     <li
       ng-if="smallLogoBrand"
       ng-style="{ 'background': smallLogoBrand }"
-      aria-label="{{ appTitle }} Logo"
+      aria-label="Bitergia Logo"
       class="logo-small visible-sm hidden-xs"
     ></li>
+    <li
+      style="background-color: #444; color: #fff; max-height: 25px; overflow: hidden;"
+    >{{appTitle}}</li>
   </div>
 
   <!-- Links -->
   <div class="global-nav__links">
     <!-- Main apps -->
-    <div class="global-nav__links-section">
+    <!-- <div class="global-nav__links-section">
       <app-switcher
         chrome="chrome"
       ></app-switcher>
+    </div -->
+
+    <!-- Metadashboard Links: Bitergia hack -->
+    <div class="global-nav__links-section">
+        <div class="global-nav-link" ng-repeat="(name, panel) in metadash">
+          <!-- One level menu entry (no submenus) -->
+          <span ng-if="panel.length">
+            <a
+              class='global-nav-link__anchor' href='#/dashboard/{{panel}}'>
+              <div class='global-nav-link__icon'>
+              <!-- testing icon -->
+              <img class="global-nav-link__icon-image ng-scope"
+                kbn-src="/plugins/kibana/assets/discover.svg"
+                src="/plugins/kibana/assets/discover.svg">
+              </div>
+              <div class='global-nav-link__title'>
+                {{name}}
+              </div>
+            </a>
+          </span>
+          <span ng-if="!panel.length">
+            <!-- Menu entry with submenus -->
+            <a ng-click="showMenu =! showMenu"
+              class='global-nav-link__anchor' href=''>
+              <div class='global-nav-link__icon'>
+              <!-- testing icon -->
+              <img class="global-nav-link__icon-image ng-scope"
+                kbn-src="/plugins/kibana/assets/discover.svg"
+                src="/plugins/kibana/assets/discover.svg">
+              </div>
+              <div class='global-nav-link__title'>
+                {{name}}
+              </div>
+            </a>
+            <div ng-if="showMenu">
+              <ul style='list-style: none;'>
+                <li ng-repeat="(name, url) in panel">
+                  <a  class='global-nav-link__anchor'
+                    href='#/dashboard/{{url}}'>{{name}}</a>
+                </li>
+              </ul>
+            </div>
+        </span>
+      </div>
+    </div>
+
+    <div class="grimoirelab-link"
+      style="
+      color: #fff;
+      font-size: 10.68px;
+      position: fixed;
+      bottom: 0px;
+      height: 120px;
+      padding-left: 0px;
+      z-index: 0;
+      "
+      >
+      <div>
+        <a href="http://grimoirelab.github.io" style="display: block; float: left; padding: 0 15px 0 18px;" target="_blank"><img kbn-src="/plugins/kibana/assets/grimoirelab-logo-w.svg" width="20"></a>
+        <div style="padding-left: 5px; float: left;">Powered by <br/><a href="http://grimoirelab.github.io" target="_blank">Grimoire Lab</a></div>
+      </div>
+      <div style="clear: both; padding-top: 10px;">
+        <a href="http://bitergia.com" style="display: block; float: left; padding: 0 15px 0 18px;" target="_blank"><img kbn-src="/plugins/kibana/assets/bitergia-logo-w.svg" width="20"></a>
+        <div style="padding-left: 5px; float: left;">Provided by <br/><a href="http://bitergia.com" target="_blank">Bitergia</a></div>
+      </div>
     </div>
 
     <!-- Bottom button -->

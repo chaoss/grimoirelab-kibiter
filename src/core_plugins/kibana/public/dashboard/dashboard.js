@@ -48,16 +48,7 @@ uiRoutes
     template: dashboardTemplate,
     resolve: {
       dash: function (savedDashboards, Notifier, $rootScope, $route, $location, courier, kbnUrl, AppState) {
-        /*change the final "_edit" and change it*/
-        if($route.current.params.id.endsWith("_edit")){
-          var finalUrl = $route.current.params.id.substring(0, $route.current.params.id.indexOf( "_edit" ));
-          $rootScope.$root.editDashboard = true;
-        }else{
-          $rootScope.$root.editDashboard = false;
-          var finalUrl = $route.current.params.id;
-        }
-
-        const id = finalUrl;
+        const id = $route.current.params.id;
         return savedDashboards.get(id)
           .catch((error) => {
             // Preserve BWC of v5.3.0 links for new, unsaved dashboards.
@@ -200,10 +191,14 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
       $scope.$listen(timefilter, 'fetch', $scope.refresh);
 
       function updateViewMode(newMode) {
-        /* Here $scope.$root has the flag */
-        $scope.topNavMenu = getTopNavConfig(newMode, navActions, $scope.$root.editDashboard); // eslint-disable-line no-use-before-define
+        $scope.topNavMenu = getTopNavConfig(newMode, navActions); // eslint-disable-line no-use-before-define
         dashboardState.switchViewMode(newMode);
         $scope.dashboardViewMode = newMode;
+        if(newMode == DashboardViewMode.VIEW){
+          $scope.$root.showDefaultMenu = false;
+        }else if(newMode == DashboardViewMode.EDIT){
+          $scope.$root.showDefaultMenu = true;
+        }
       }
 
       const onChangeViewMode = (newMode) => {
@@ -245,14 +240,6 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
       const navActions = {};
       navActions[TopNavIds.EXIT_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.VIEW);
       navActions[TopNavIds.ENTER_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.EDIT);
-      navActions[TopNavIds.CHECK_LOGIN] = () => {
-        /* Check if the user has logged in */
-        if(true){
-          alert("You are not logged in");
-          return;
-        }
-         onChangeViewMode(DashboardViewMode.EDIT);
-      }
 
       updateViewMode(dashboardState.getViewMode());
 
@@ -265,6 +252,7 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
               kbnUrl.change(createDashboardEditUrl(dash.id));
             } else {
               docTitle.change(dash.lastSavedTitle);
+              //$scope.$root.showDefaultMenu = false;
               updateViewMode(DashboardViewMode.VIEW);
             }
           }

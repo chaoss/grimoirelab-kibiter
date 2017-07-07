@@ -8,14 +8,10 @@ import { TopNavIds } from './top_nav_ids';
  * @return {Array<kbnTopNavConfig>} - Returns an array of objects for a top nav configuration, based on the
  * mode.
  */
-export function getTopNavConfig(dashboardMode, actions, showEditButton) {
+export function getTopNavConfig(dashboardMode, actions) {
   switch (dashboardMode) {
     case DashboardViewMode.VIEW:
-      /* Show or not the button Edit */
-      if(showEditButton){
-        return [getShareConfig(), getEditConfig(actions[TopNavIds.ENTER_EDIT_MODE])];
-      }
-      return [getShareConfig()];//,  getEditConfig(actions[TopNavIds.CHECK_LOGIN])];// getEditConfig(actions[TopNavIds.ENTER_EDIT_MODE])];
+      return [getShareConfig(), getEditConfig(actions[TopNavIds.ENTER_EDIT_MODE])];
     case DashboardViewMode.EDIT:
       return [
         getSaveConfig(),

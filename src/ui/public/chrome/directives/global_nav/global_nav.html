@@ -33,14 +33,14 @@
   <!-- Links -->
   <div class="global-nav__links">
     <!-- Main apps -->
-    <!-- <div class="global-nav__links-section">
+    <div class="global-nav__links-section" ng-show="$root.showDefaultMenu">
       <app-switcher
         chrome="chrome"
       ></app-switcher>
-    </div -->
+    </div>
 
     <!-- Metadashboard Links: Bitergia hack -->
-    <div class="global-nav__links-section">
+    <div class="global-nav__links-section" ng-show="!$root.showDefaultMenu">
         <div class="global-nav-link" ng-repeat="(name, panel) in metadash">
           <!-- One level menu entry (no submenus) -->
           <span ng-if="panel.length">

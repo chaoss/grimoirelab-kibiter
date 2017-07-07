@@ -4,6 +4,5 @@ export const TopNavIds = {
   OPTIONS: 'options',
   SAVE: 'save',
   EXIT_EDIT_MODE: 'exitEditMode',
-  ENTER_EDIT_MODE: 'enterEditMode',
-  CHECK_LOGIN: 'checkLogin'
+  ENTER_EDIT_MODE: 'enterEditMode'
 };

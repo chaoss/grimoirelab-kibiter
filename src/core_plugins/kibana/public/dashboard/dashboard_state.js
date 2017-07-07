@@ -18,7 +18,8 @@ function getStateDefaults(dashboard) {
     uiState: dashboard.uiStateJSON ? JSON.parse(dashboard.uiStateJSON) : {},
     query: FilterUtils.getQueryFilterForDashboard(dashboard),
     filters: FilterUtils.getFilterBarsForDashboard(dashboard),
-    viewMode: dashboard.id ? DashboardViewMode.VIEW : DashboardViewMode.EDIT,
+    /* Default view when click in the lists */
+    viewMode: dashboard.id ? DashboardViewMode.EDIT : DashboardViewMode.EDIT,
   };
 }
 

@@ -47,7 +47,7 @@ uiRoutes
   .when(createDashboardEditUrl(':id'), {
     template: dashboardTemplate,
     resolve: {
-      dash: function (savedDashboards, Notifier, $rootScope, $route, $location, courier, kbnUrl, AppState) {
+      dash: function (savedDashboards, Notifier, $route, $location, courier, kbnUrl, AppState) {
         const id = $route.current.params.id;
         return savedDashboards.get(id)
           .catch((error) => {
@@ -252,7 +252,6 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
               kbnUrl.change(createDashboardEditUrl(dash.id));
             } else {
               docTitle.change(dash.lastSavedTitle);
-              //$scope.$root.showDefaultMenu = false;
               updateViewMode(DashboardViewMode.VIEW);
             }
           }

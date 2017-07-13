@@ -9,7 +9,7 @@ import stateMonitorFactory  from 'ui/state_management/state_monitor_factory';
 import { createPanelState } from 'plugins/kibana/dashboard/panel/panel_state';
 import { getPersistedStateId } from 'plugins/kibana/dashboard/panel/panel_state';
 
-function getStateDefaults(dashboard) {
+function getStateDefaults(dashboard, scope) {
   return {
     title: dashboard.title,
     timeRestore: dashboard.timeRestore,
@@ -18,7 +18,7 @@ function getStateDefaults(dashboard) {
     uiState: dashboard.uiStateJSON ? JSON.parse(dashboard.uiStateJSON) : {},
     query: FilterUtils.getQueryFilterForDashboard(dashboard),
     filters: FilterUtils.getFilterBarsForDashboard(dashboard),
-    viewMode: dashboard.id ? DashboardViewMode.VIEW : DashboardViewMode.EDIT,
+    viewMode: dashboard.id ? checkEditView(dashboard, scope) : DashboardViewMode.EDIT,
   };
 }
 
@@ -30,6 +30,18 @@ function getStateDefaults(dashboard) {
  */
 function cleanFiltersForComparison(filters) {
   return _.map(filters, (filter) => _.omit(filter, ['$$hashKey', '$state']));
+}
+
+/**
+* Depending if the user is switching between dashboard, the Edit mode must be hold
+* @param scope {<Object>}
+* @returns {ViewMode}
+*/
+function checkEditView(dashboard, scope) {
+  if(scope && scope.$root.showDefaultMenu) {
+    return DashboardViewMode.EDIT;
+  }
+  return DashboardViewMode.VIEW;
 }
 
 /**
@@ -59,10 +71,10 @@ export class DashboardState {
    * @param savedDashboard {SavedDashboard}
    * @param AppState {AppState}
    */
-  constructor(savedDashboard, AppState) {
+  constructor(savedDashboard, AppState, scope) {
     this.savedDashboard = savedDashboard;
 
-    this.stateDefaults = getStateDefaults(this.savedDashboard);
+    this.stateDefaults = getStateDefaults(this.savedDashboard, scope);
 
     this.appState = new AppState(this.stateDefaults);
     this.uiState = this.appState.makeStateful('uiState');

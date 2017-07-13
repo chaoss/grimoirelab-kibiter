@@ -86,7 +86,7 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
         docTitle.change(dash.title);
       }
 
-      const dashboardState = new DashboardState(dash, AppState);
+      const dashboardState = new DashboardState(dash, AppState, $scope);
 
       // The 'previouslyStored' check is so we only update the time filter on dashboard open, not during
       // normal cross app navigation.
@@ -194,6 +194,11 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
         $scope.topNavMenu = getTopNavConfig(newMode, navActions); // eslint-disable-line no-use-before-define
         dashboardState.switchViewMode(newMode);
         $scope.dashboardViewMode = newMode;
+        if(newMode === DashboardViewMode.VIEW) {
+          $scope.$root.showDefaultMenu = false;
+        } else if(newMode === DashboardViewMode.EDIT) {
+          $scope.$root.showDefaultMenu = true;
+        }
       }
 
       const onChangeViewMode = (newMode) => {

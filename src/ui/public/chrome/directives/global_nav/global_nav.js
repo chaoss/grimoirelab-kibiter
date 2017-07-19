@@ -26,6 +26,8 @@ module.directive('globalNav', (es, kbnIndex, globalNavState) => {
       // App switcher functionality.
       function updateGlobalNav() {
         const isOpen = globalNavState.isOpen();
+        const isSecondOpen = globalNavState.isSecondOpen();
+        scope.isSecondNavOpen = isSecondOpen;
         scope.isGlobalNavOpen = isOpen;
         scope.globalNavToggleButton = {
           classes: isOpen ? 'global-nav-link--close' : undefined,
@@ -46,6 +48,51 @@ module.directive('globalNav', (es, kbnIndex, globalNavState) => {
       scope.toggleGlobalNav = event => {
         event.preventDefault();
         globalNavState.setOpen(!globalNavState.isOpen());
+        if(globalNavState.isSecondOpen()) {
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+          scope.actualPanel = undefined;
+        }
+      };
+
+      scope.toggleSecondNav = (panel, event) => {
+        //Open first nav-bar
+        if(!globalNavState.isOpen()){
+          globalNavState.setOpen(!globalNavState.isOpen())
+        }
+        //If clicking in the same panel, it must be open/close
+        if(panel == scope.actualPanel){
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+          if(!globalNavState.isSecondOpen()){
+            //If closed, hide the space
+            scope.actualPanel = undefined;
+          }
+          return;
+        }
+        //If clickng in other panel
+        scope.actualPanel = panel;
+        if(!globalNavState.isSecondOpen()){
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+        }
+      };
+
+      /*
+      * Function that changes the CSS of the item that was clicked
+      */
+      scope.selectedItem = 0;
+      scope.$root.itemClicked = ($index) => {
+        scope.selectedItem = $index;
+        //Close second nav if it was open
+        scope.$root.closeSecondNav();
+      };
+
+      /*
+      * Function that closes the second nav if it was open
+      */
+      scope.$root.closeSecondNav = () => {
+        if(globalNavState.isSecondOpen()) {
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+          scope.actualPanel = undefined;
+        }
       };
 
       function getMetaDashboards() {
@@ -64,7 +111,7 @@ module.directive('globalNav', (es, kbnIndex, globalNavState) => {
       }
 
       getMetaDashboards().then(function (results) {
-        scope.metadash = results.hits[0]._source;
+        scope.$root.metadash = results.hits[0]._source;
       });
 
     }

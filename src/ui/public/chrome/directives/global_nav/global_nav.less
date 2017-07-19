@@ -26,6 +26,18 @@
     }
   }
 
+  &.is-second-nav-open {
+    width: @global-nav-open-width + @second-nav-open-width;
+
+    .app-title {
+      display: inline-block;
+    }
+
+    + .app-wrapper {
+      left: @global-nav-open-width + @second-nav-open-width;
+    }
+  }
+
   .logo-small,
   .logo {
     height: @global-nav-logo-height;
@@ -41,6 +53,27 @@
       background-color: #000;
     }
   }
+}
+
+.second-nav-content {
+
+  color: #fff;
+  font-size: 0.8em; /* 10.68px;*/
+  /*position: fixed;*/
+  bottom: 0px;
+  height: 100%;
+  width: 100%;
+  padding-left: 0px;
+  margin-left: @global-nav-open-width;
+  z-index: 1;
+
+}
+
+/**
+* CSS when a panel is clicked
+**/
+.selected-item {
+  background-color: #f49e42;
 }
 
   /**

@@ -82,6 +82,13 @@ module.directive('globalNav', (es, kbnIndex, globalNavState) => {
       scope.itemClicked = ($index) => {
         scope.selectedItem = $index;
         //Close second nav if it was open
+        scope.$root.closeSecondNav();
+      };
+
+      /*
+      * Function that closes the second nav if it was open
+      */
+      scope.$root.closeSecondNav = () => {
         if(globalNavState.isSecondOpen()) {
           globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
           scope.actualPanel = undefined;

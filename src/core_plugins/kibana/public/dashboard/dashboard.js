@@ -198,6 +198,8 @@ app.directive('dashboardApp', function (es, kbnIndex, Notifier, courier, AppStat
           $scope.$root.showDefaultMenu = false;
         } else if(newMode === DashboardViewMode.EDIT) {
           $scope.$root.showDefaultMenu = true;
+          //Close second nav
+          $scope.$root.closeSecondNav();
         }
       }
 

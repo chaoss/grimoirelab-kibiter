@@ -41,11 +41,11 @@
 
     <!-- Metadashboard Links: Bitergia hack -->
     <div class="global-nav__links-section" ng-show="!$root.showDefaultMenu">
-        <div class="global-nav-link" ng-repeat="(name, panel) in metadash">
+        <div class="global-nav-link" ng-repeat="(name, panel) in $root.metadash">
           <!-- One level menu entry (no submenus) -->
           <span ng-if="panel.length">
             <a
-              class='global-nav-link__anchor' ng-href='{{panel}}' ng-click="itemClicked($index)">
+              class='global-nav-link__anchor' ng-href='{{panel}}' ng-click="$root.itemClicked($index)">
               <div class='global-nav-link__icon' ng-class="{ 'selected-item': $index == selectedItem }">
               <!-- testing icon -->
               <img class="global-nav-link__icon-image ng-scope"
@@ -83,7 +83,7 @@
               <ul style='list-style: none;'>
                 <li ng-repeat="(name, url) in actualPanel">
                   <a  class='global-nav-link__anchor'
-                    ng-href='#/dashboard/{{url}}' ng-click="itemClicked($parent.$index)">
+                    ng-href='#/dashboard/{{url}}' ng-click="$root.itemClicked($parent.$index)">
                     {{name}}</a>
                 </li>
               </ul>

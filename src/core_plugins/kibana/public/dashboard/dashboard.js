@@ -47,8 +47,29 @@ uiRoutes
   .when(createDashboardEditUrl(':id'), {
     template: dashboardTemplate,
     resolve: {
-      dash: function (savedDashboards, Notifier, $route, $location, courier, kbnUrl, AppState) {
+      dash: function ($rootScope, savedDashboards, Notifier, $route, $location, courier, kbnUrl, AppState) {
         const id = $route.current.params.id;
+
+        //Search the panel in the menu to select it
+        var index = 0;
+        for(var key in $rootScope.metadash){
+            var value = $rootScope.metadash[key];
+            if(typeof value == 'object'){
+              for(var key2 in value){
+                if(value[key2] == id){
+                  $rootScope.itemClicked(index);
+                  break;
+                }
+              }
+            }else{
+              if(value == id){
+                $rootScope.itemClicked(index);
+                break;
+              }
+            }
+            index++;
+        };
+
         return savedDashboards.get(id)
           .catch((error) => {
             // Preserve BWC of v5.3.0 links for new, unsaved dashboards.

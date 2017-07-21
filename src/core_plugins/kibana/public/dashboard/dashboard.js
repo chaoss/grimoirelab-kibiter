@@ -47,8 +47,27 @@ uiRoutes
   .when(createDashboardEditUrl(':id'), {
     template: dashboardTemplate,
     resolve: {
-      dash: function (savedDashboards, Notifier, $route, $location, courier, kbnUrl, AppState) {
+      dash: function ($rootScope, savedDashboards, Notifier, $route, $location, courier, kbnUrl, AppState) {
         const id = $route.current.params.id;
+        //Search the panel in the menu to select it
+        var index = 0;
+        for(var key in $rootScope.metadash){
+          var value = $rootScope.metadash[key];
+          if(typeof value == 'object'){
+            for(var key2 in value){
+              if(value[key2] == id){
+                $rootScope.itemClicked(index);
+                break;
+              }
+            }
+          }else{
+            if(value == id){
+              $rootScope.itemClicked(index);
+              break;
+            }
+          }
+          index++;
+        };
         return savedDashboards.get(id)
           .catch((error) => {
             // Preserve BWC of v5.3.0 links for new, unsaved dashboards.
@@ -69,7 +88,7 @@ uiRoutes
     }
   });
 
-app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter, quickRanges, kbnUrl, confirmModal, Private) {
+app.directive('dashboardApp', function (es, kbnIndex, Notifier, courier, AppState, timefilter, quickRanges, kbnUrl, confirmModal, Private) {
   const brushEvent = Private(UtilsBrushEventProvider);
   const filterBarClickHandler = Private(FilterBarFilterBarClickHandlerProvider);
 
@@ -86,7 +105,7 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
         docTitle.change(dash.title);
       }
 
-      const dashboardState = new DashboardState(dash, AppState);
+      const dashboardState = new DashboardState(dash, AppState, $scope);
 
       // The 'previouslyStored' check is so we only update the time filter on dashboard open, not during
       // normal cross app navigation.
@@ -194,6 +213,13 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
         $scope.topNavMenu = getTopNavConfig(newMode, navActions); // eslint-disable-line no-use-before-define
         dashboardState.switchViewMode(newMode);
         $scope.dashboardViewMode = newMode;
+        if(newMode === DashboardViewMode.VIEW) {
+          $scope.$root.showDefaultMenu = false;
+        } else if(newMode === DashboardViewMode.EDIT) {
+          $scope.$root.showDefaultMenu = true;
+          //Close second nav
+          $scope.$root.closeSecondNav();
+        }
       }
 
       const onChangeViewMode = (newMode) => {
@@ -234,7 +260,23 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
 
       const navActions = {};
       navActions[TopNavIds.EXIT_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.VIEW);
-      navActions[TopNavIds.ENTER_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.EDIT);
+      navActions[TopNavIds.ENTER_EDIT_MODE] = () => {
+        /* Force POST to see the HTTP login auth */
+        function allowLogin() {
+          return es.update({
+            index: kbnIndex,
+            type: 'metadashboard',
+            id: 'main',
+            body: {
+              doc: {}
+            }
+          });
+        }
+        allowLogin().then(function () { //results) {
+          //console.log('OK', results)
+          onChangeViewMode(DashboardViewMode.EDIT);
+        });
+      };
 
       updateViewMode(dashboardState.getViewMode());
 

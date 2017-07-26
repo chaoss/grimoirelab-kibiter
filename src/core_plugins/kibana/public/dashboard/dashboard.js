@@ -354,6 +354,8 @@ app.directive('dashboardApp', function (es, kbnIndex, Notifier, courier, AppStat
       };
 
       $scope.$emit('application.load');
+      //Always check and close the second nav if it was open
+      $scope.$root.closeSecondNav();
     }
   };
 });

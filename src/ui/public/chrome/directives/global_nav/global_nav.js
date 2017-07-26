@@ -79,10 +79,8 @@ module.directive('globalNav', (es, kbnIndex, globalNavState) => {
       * Function that changes the CSS of the item that was clicked
       */
       scope.selectedItem = 0;
-      scope.$root.  itemClicked = ($index) => {
+      scope.$root.itemClicked = ($index) => {
         scope.selectedItem = $index;
-        //Close second nav if it was open
-        scope.$root.closeSecondNav();
       };
 
       /*

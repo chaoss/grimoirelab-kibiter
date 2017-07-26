@@ -45,7 +45,7 @@
           <!-- One level menu entry (no submenus) -->
           <span ng-if="panel.length">
             <a
-              class='global-nav-link__anchor' ng-href='#/dashboard/{{panel}}' ng-click="$root.itemClicked($index)">
+              class='global-nav-link__anchor' href='#/dashboard/{{panel}}'>
               <div class='global-nav-link__icon' ng-class="{ 'selected-item': $index == selectedItem }">
               <!-- testing icon -->
               <img class="global-nav-link__icon-image ng-scope"
@@ -83,7 +83,7 @@
               <ul style='list-style: none;'>
                 <li ng-repeat="(name, url) in actualPanel">
                   <a  class='global-nav-link__anchor'
-                    ng-href='#/dashboard/{{url}}' ng-click="$root.itemClicked($parent.$index)">
+                    href='#/dashboard/{{url}}'>
                     {{name}}</a>
                 </li>
               </ul>

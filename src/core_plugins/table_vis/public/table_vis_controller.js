@@ -25,8 +25,8 @@ module.controller('KbnTableVisController', function ($scope, $element, Private) 
    * - one of the view options changes (vis.params)
    */
 
-   $scope.doSearch = function(){
-       $scope.inputSearch = $("#inputSearch").val();
+   $scope.doSearch = function(id){
+       $scope.inputSearch = $("#inputSearch_" + id).val();
    }
 
   $scope.$watchMulti(['esResponse', 'vis.params', 'inputSearch'], function ([resp]) {
@@ -38,10 +38,8 @@ module.controller('KbnTableVisController', function ($scope, $element, Private) 
       const vis = $scope.vis;
       const params = vis.params;
 
-      if(!$("#inputSearch").val()){
+      if(!$scope.inputSearch){
         $scope.inputSearch = "";
-      }else{
-        $scope.inputSearch = $("#inputSearch").val();
       }
 
       tableGroups = tabifyAggResponse(vis, resp, {

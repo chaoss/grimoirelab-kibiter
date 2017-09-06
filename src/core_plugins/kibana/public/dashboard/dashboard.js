@@ -215,8 +215,10 @@ app.directive('dashboardApp', function (es, kbnIndex, Notifier, courier, AppStat
         $scope.dashboardViewMode = newMode;
         if(newMode === DashboardViewMode.VIEW) {
           $scope.$root.showDefaultMenu = false;
+          $(".global-nav__links").css("background-color", "");
         } else if(newMode === DashboardViewMode.EDIT) {
           $scope.$root.showDefaultMenu = true;
+          $(".global-nav__links").css("background-color", "#999");
           //Close second nav
           $scope.$root.closeSecondNav();
         }

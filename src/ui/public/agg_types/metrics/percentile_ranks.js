@@ -17,8 +17,7 @@ export default function AggTypeMetricPercentileRanksProvider(Private) {
       const field = this.getField();
       const format = (field && field.format) || fieldFormats.getDefaultInstance('number');
       const label = this.params.customLabel || this.getFieldDisplayName();
-
-      return 'Percentile rank ' + format.convert(this.key, 'text') + ' of "' + label + '"';
+      return label + ' - ' + this.key + ' rank'
     }
   };
 

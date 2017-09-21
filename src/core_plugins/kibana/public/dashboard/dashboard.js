@@ -81,6 +81,8 @@ app.directive('dashboardApp', function ($injector) {
   const kbnUrl = $injector.get('kbnUrl');
   const confirmModal = $injector.get('confirmModal');
   const Private = $injector.get('Private');
+  const es = $injector.get('es');
+  const kbnIndex = $injector.get('kbnIndex');
 
   const brushEvent = Private(UtilsBrushEventProvider);
   const filterBarClickHandler = Private(FilterBarClickHandlerProvider);
@@ -99,7 +101,7 @@ app.directive('dashboardApp', function ($injector) {
         docTitle.change(dash.title);
       }
 
-      const dashboardState = new DashboardState(dash, AppState);
+      const dashboardState = new DashboardState(dash, AppState, $scope);
 
       // The 'previouslyStored' check is so we only update the time filter on dashboard open, not during
       // normal cross app navigation.
@@ -225,6 +227,11 @@ app.directive('dashboardApp', function ($injector) {
         $scope.topNavMenu = getTopNavConfig(newMode, navActions); // eslint-disable-line no-use-before-define
         dashboardState.switchViewMode(newMode);
         $scope.dashboardViewMode = newMode;
+        if(newMode === DashboardViewMode.VIEW) {
+          $scope.$root.showDefaultMenu = false;
+        } else if(newMode === DashboardViewMode.EDIT) {
+          $scope.$root.showDefaultMenu = true;
+        }
       }
 
       const onChangeViewMode = (newMode) => {
@@ -281,7 +288,23 @@ app.directive('dashboardApp', function ($injector) {
 
       const navActions = {};
       navActions[TopNavIds.EXIT_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.VIEW);
-      navActions[TopNavIds.ENTER_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.EDIT);
+      navActions[TopNavIds.ENTER_EDIT_MODE] = () => {
+        /* Force POST to see the HTTP login auth */
+        function allowLogin() {
+          return es.update({
+            index: kbnIndex,
+            type: 'metadashboard',
+            id: 'main',
+            body: {
+              doc: {}
+            }
+          });
+        }
+        allowLogin().then(function () { //results) {
+          //console.log('OK', results)
+          onChangeViewMode(DashboardViewMode.EDIT);
+        });
+      };
       navActions[TopNavIds.CLONE] = () => {
         const currentTitle = $scope.model.title;
         const onClone = (newTitle) => {

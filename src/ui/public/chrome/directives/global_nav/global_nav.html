@@ -1,6 +1,6 @@
 <nav
   class="global-nav"
-  ng-class="{'is-global-nav-open': isGlobalNavOpen}"
+  ng-class="{'is-global-nav-open': isGlobalNavOpen, 'is-second-nav-open': isSecondNavOpen}"
   ng-show="isVisible"
 >
 
@@ -41,41 +41,50 @@
 
     <!-- Metadashboard Links: Bitergia hack -->
     <div class="global-nav__links-section">
-        <div class="global-nav-link" ng-repeat="(name, panel) in metadash">
+        <div class="global-nav-link" ng-repeat="(name, panel) in $root.metadash">
           <!-- One level menu entry (no submenus) -->
           <span ng-if="panel.length">
             <a
-              class='global-nav-link__anchor' href='#/dashboard/{{panel}}'>
-              <div class='global-nav-link__icon'>
+              class='global-nav-link__anchor' ng-href='#/dashboard/{{panel}}' ng-click="$root.itemClicked($index)">
+              <div class='global-nav-link__icon' ng-class="{ 'selected-item': $index == selectedItem }">
               <!-- testing icon -->
               <img class="global-nav-link__icon-image ng-scope"
                 kbn-src="/plugins/kibana/assets/discover.svg"
                 src="/plugins/kibana/assets/discover.svg">
               </div>
-              <div class='global-nav-link__title'>
+              <div class='global-nav-link__title' ng-class="{ 'selected-item': $index == selectedItem }">
                 {{name}}
               </div>
             </a>
           </span>
           <span ng-if="!panel.length">
             <!-- Menu entry with submenus -->
-            <a ng-click="showMenu =! showMenu"
+            <a ng-click="toggleSecondNav(panel, $event)"
               class='global-nav-link__anchor' href=''>
-              <div class='global-nav-link__icon'>
+              <div class='global-nav-link__icon' ng-class="{ 'selected-item': $index == selectedItem }">
               <!-- testing icon -->
               <img class="global-nav-link__icon-image ng-scope"
                 kbn-src="/plugins/kibana/assets/discover.svg"
                 src="/plugins/kibana/assets/discover.svg">
               </div>
-              <div class='global-nav-link__title'>
+              <div class='global-nav-link__title' ng-class="{ 'selected-item': $index == selectedItem }">
                 {{name}}
               </div>
             </a>
-            <div ng-if="showMenu">
+            <!-- div ng-if="showMenu">
               <ul style='list-style: none;'>
                 <li ng-repeat="(name, url) in panel">
                   <a  class='global-nav-link__anchor'
                     href='#/dashboard/{{url}}'>{{name}}</a>
+                </li>
+              </ul>
+            </div -->
+            <div class="second-nav-content" ng-if="panel == actualPanel">
+              <ul style='list-style: none;'>
+                <li ng-repeat="(name, url) in actualPanel">
+                  <a  class='global-nav-link__anchor'
+                    ng-href='#/dashboard/{{url}}' ng-click="$root.itemClicked($parent.$index)">
+                    {{name}}</a>
                 </li>
               </ul>
             </div>

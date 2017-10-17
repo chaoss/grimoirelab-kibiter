@@ -14,7 +14,7 @@ RUN groupadd --system kibana && \
 # ruby gems are used for building binary packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-            ca-certificates \
+            ca-certificates dirmngr gnupg \
             curl \
             wget \
             git \

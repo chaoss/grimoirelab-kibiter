@@ -19,5 +19,5 @@ export default (grunt) => {
 };
 
 function buildVersion(isRelease, version) {
-  return isRelease ? version : `${version}-SNAPSHOT`;
+  return isRelease ? version : `${version}-1`;
 }

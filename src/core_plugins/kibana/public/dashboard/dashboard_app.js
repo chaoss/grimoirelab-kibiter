@@ -49,6 +49,8 @@ app.directive('dashboardApp', function ($injector) {
   const confirmModal = $injector.get('confirmModal');
   const config = $injector.get('config');
   const Private = $injector.get('Private');
+  const es = $injector.get('es');
+  const kbnIndex = $injector.get('kbnIndex');
 
   return {
     restrict: 'E',
@@ -66,7 +68,7 @@ app.directive('dashboardApp', function ($injector) {
         docTitle.change(dash.title);
       }
 
-      const dashboardStateManager = new DashboardStateManager(dash, AppState, dashboardConfig.getHideWriteControls());
+      const dashboardStateManager = new DashboardStateManager(dash, AppState, dashboardConfig.getHideWriteControls(), $scope);
 
       $scope.getDashboardState = () => dashboardStateManager;
       $scope.appState = dashboardStateManager.getAppState();
@@ -215,6 +217,11 @@ app.directive('dashboardApp', function ($injector) {
         $scope.topNavMenu = getTopNavConfig(newMode, navActions, dashboardConfig.getHideWriteControls()); // eslint-disable-line no-use-before-define
         dashboardStateManager.switchViewMode(newMode);
         $scope.dashboardViewMode = newMode;
+        if(newMode === DashboardViewMode.VIEW) {
+          $scope.$root.showDefaultMenu = false;
+        } else if(newMode === DashboardViewMode.EDIT) {
+          $scope.$root.showDefaultMenu = true;
+        }
       }
 
       const onChangeViewMode = (newMode) => {
@@ -284,7 +291,26 @@ app.directive('dashboardApp', function ($injector) {
       navActions[TopNavIds.FULL_SCREEN] = () =>
         dashboardStateManager.setFullScreenMode(true);
       navActions[TopNavIds.EXIT_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.VIEW);
-      navActions[TopNavIds.ENTER_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.EDIT);
+      navActions[TopNavIds.ENTER_EDIT_MODE] = () => {
+        /* Force POST to see the HTTP login auth */
+        function allowLogin() {
+          return es.update({
+            index: kbnIndex,
+            ignore: [404],
+            type: 'doc',
+            id: 'metadashboard',
+            body: {
+              query: {
+                doc: {}
+              }
+            }
+          });
+        }
+        allowLogin().then(function () { //results) {
+          //console.log('OK', results)
+          onChangeViewMode(DashboardViewMode.EDIT);
+        });
+      };
       navActions[TopNavIds.CLONE] = () => {
         const currentTitle = $scope.model.title;
         const onClone = (newTitle) => {

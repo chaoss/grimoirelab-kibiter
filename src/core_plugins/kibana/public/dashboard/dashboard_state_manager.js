@@ -60,11 +60,11 @@ export class DashboardStateManager {
    * @param AppState {AppState} The AppState class to use when instantiating a new AppState instance.
    * @param hideWriteControls {boolean} true if write controls should be hidden.
    */
-  constructor(savedDashboard, AppState, hideWriteControls) {
+  constructor(savedDashboard, AppState, hideWriteControls, scope) {
     this.savedDashboard = savedDashboard;
     this.hideWriteControls = hideWriteControls;
 
-    this.stateDefaults = getAppStateDefaults(this.savedDashboard, this.hideWriteControls);
+    this.stateDefaults = getAppStateDefaults(this.savedDashboard, this.hideWriteControls, scope);
 
     this.appState = new AppState(this.stateDefaults);
     this.uiState = this.appState.makeStateful('uiState');
@@ -211,7 +211,7 @@ export class DashboardStateManager {
     // The right way to fix this might be to ensure the defaults object stored on state is a deep
     // clone, but given how much code uses the state object, I determined that to be too risky of a change for
     // now.  TODO: revisit this!
-    this.stateDefaults = getAppStateDefaults(this.savedDashboard, this.hideWriteControls);
+    this.stateDefaults = getAppStateDefaults(this.savedDashboard, this.hideWriteControls, scope);
     // The original query won't be restored by the above because the query on this.savedDashboard is applied
     // in place in order for it to affect the visualizations.
     this.stateDefaults.query = this.lastSavedDashboardFilters.query;

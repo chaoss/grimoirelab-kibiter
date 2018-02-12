@@ -23,6 +23,7 @@ RUN apt-get update && \
             make \
             g++ \
             ruby-dev rpm rubygems \
+            libffi-dev \
             && \
     # install nvm
     curl -o /tmp/nvm-install.sh -sSL https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh && \
@@ -32,6 +33,7 @@ RUN apt-get update && \
 
     # install kibiter
     # gems needed in Kibana > 5.x to build binary packages
+    gem install ffi && \
     gem install fpm -v 1.5.0 && \
     gem install pleaserun -v 0.0.24 && \
     git clone --depth 1 --branch ${KIBANA_BRANCH} https://github.com/grimoirelab/kibiter.git && \

@@ -54,6 +54,18 @@ RUN apt-get update && \
     cd kbn_dotplot && \
     npm install  && \
     cd .. && \
+    # Install polar plugin: https://github.com/dlumbrer/kbn_polar
+    cd /opt/kibana/plugins && \
+    git clone https://github.com/dlumbrer/kbn_polar.git -b 6-dev && \
+    cd kbn_polar && \
+    npm install  && \
+    cd .. && \
+    # Install radar plugin: https://github.com/dlumbrer/kbn_radar
+    cd /opt/kibana/plugins && \
+    git clone https://github.com/dlumbrer/kbn_radar.git -b 6-dev && \
+    cd kbn_radar && \
+    npm install  && \
+    cd .. && \
     # Install network plugin: https://dlumbrer.github.io/kbn_network/
     git clone https://github.com/dlumbrer/kbn_network.git network_vis -b 6-dev && \
     cd network_vis && \

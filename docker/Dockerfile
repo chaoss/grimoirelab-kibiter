@@ -17,6 +17,7 @@ RUN apt-get update && \
             ca-certificates dirmngr gnupg \
             curl \
             wget \
+            unzip \
             git \
             python \
             zip \
@@ -67,9 +68,24 @@ RUN apt-get update && \
     npm install  && \
     cd .. && \
     # Install network plugin: https://dlumbrer.github.io/kbn_network/
+    cd /opt/kibana/plugins && \
     git clone https://github.com/dlumbrer/kbn_network.git network_vis -b 6-dev && \
     cd network_vis && \
     npm install  && \
+    cd .. && \
+    # Install Search-Guard Custom Bitergia plugin: https://github.com/Bitergia/search-guard-kibana-plugin
+    cd /opt/kibana/plugins && \
+    wget https://github.com/Bitergia/search-guard-kibana-plugin/releases/download/biter-v6.1.0-10-1/searchguard-biter-6.1.0-10-1.zip && \
+    unzip searchguard-biter-6.1.0-10-1.zip && \
+    cd .. && \
+    # Add Search-Guard configuration to kibana.yml
+    echo 'server.host: 0.0.0.0' >> /opt/kibana/config/kibana.yml && \
+    echo 'elasticsearch.username: "kibanaserver"' >> /opt/kibana/config/kibana.yml && \
+    echo 'elasticsearch.password: "kibanaserver"' >> /opt/kibana/config/kibana.yml && \
+    echo 'elasticsearch.url: "https://localhost:9200"' >> /opt/kibana/config/kibana.yml && \
+    echo 'elasticsearch.ssl.verificationMode: none' >> /opt/kibana/config/kibana.yml && \
+    echo 'searchguard.basicauth.enabled: true' >> /opt/kibana/config/kibana.yml && \
+
     cd /root && \
     # cleanup to thin the final image
     rm -rf /kibiter && \

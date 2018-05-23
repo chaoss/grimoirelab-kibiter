@@ -3,6 +3,47 @@
   ng-show="kbnTopNav.isVisible()"
   data-test-subj="top-nav"
 >
+
+<div class="kuiLocalNavRow theme-dark newLocalNav">
+  <div class="kuiLocalNavRow__section">
+    <div class="kuiLocalBreadcrumbs">
+      <div class="kuiLocalBreadcrumb">
+        <a class="kuiLocalBreadcrumb__link" href="#">
+          {{$root.appTitleCustom}}
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="kuiLocalNavRow__section">
+    <div class="kuiLocalMenu">
+      <div class="kuiLocalMenuItem" ng-click="showInfo(name, panel)" ng-repeat="(name, panel) in $root.metadash">
+        {{name}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="kuiLocalDropdown newLocalDropdown" ng-show="showNewMenu">
+  <!-- Dropdown close button -->
+  <button class="kuiLocalDropdownCloseButton">
+    <span class="fa fa-chevron-circle-up" ng-click="showNewMenu = false"></span>
+  </button>
+
+  <div class="kuiLocalDropdownPanels" ng-repeat="(subitemName, subitemValue) in currentPanelsons">
+    <!-- Left panel -->
+    <div class="kuiLocalDropdownPanel kuiLocalDropdownPanel--left">
+      <!-- Title -->
+      <a class="kuiLocalDropdownTitle newLocalDropdownTitle" href="#/dashboard/{{subitemValue}}">{{subitemName}}</a>
+
+      <!-- Help text -->
+      <div class="kuiLocalDropdownHelpText newLocalDropdownTitle">
+        Here's some help text to explain the purpose of the panel.
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Top row -->
   <div class="kuiLocalNavRow">
     <!-- Top left corner slot, e.g. breadcrumbs, title. -->

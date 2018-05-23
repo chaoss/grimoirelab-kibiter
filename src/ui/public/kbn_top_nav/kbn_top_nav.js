@@ -41,12 +41,13 @@ import { uiModules } from 'ui/modules';
 import template from './kbn_top_nav.html';
 import { KbnTopNavControllerProvider } from './kbn_top_nav_controller';
 import { NavBarExtensionsRegistryProvider } from 'ui/registry/navbar_extensions';
+import './less/custom_style.less';
 
 import './bread_crumbs/bread_crumbs';
 
 const module = uiModules.get('kibana');
 
-module.directive('kbnTopNav', function (Private) {
+module.directive('kbnTopNav', function (es, kbnIndex, Private) {
   const KbnTopNavController = Private(KbnTopNavControllerProvider);
   const navbarExtensions = Private(NavBarExtensionsRegistryProvider);
   const getNavbarExtensions = _.memoize(function (name) {
@@ -73,7 +74,7 @@ module.directive('kbnTopNav', function (Private) {
     //
     // scope: {}
 
-    controller($scope, $attrs, $element, $transclude) {
+    controller($scope, $attrs, $element, $transclude, $location) {
       // This is a semi-hacky solution to missing slot-transclusion support in Angular 1.4.7
       // (it was added as a core feature in 1.5). Borrowed from http://stackoverflow.com/a/22080765.
       $scope.transcludes = {};
@@ -131,6 +132,16 @@ module.directive('kbnTopNav', function (Private) {
 
       initTopNav(topNavConfig, null);
 
+      $scope.showInfo = function(name, url){
+        if (typeof $scope.$root.metadash[name] === 'string' || $scope.$root.metadash[name] instanceof String){
+          $scope.showNewMenu = false;
+          window.location.replace(window.location.href.split("#")[0] + "#/dashboard/" + url)
+        }else{
+          $scope.showNewMenu = true;
+          $scope.currentPanelsons = $scope.$root.metadash[name]
+        }
+      }
+
       return $scope.kbnTopNav;
     },
 
@@ -146,6 +157,33 @@ module.directive('kbnTopNav', function (Private) {
           angular.element(transclusionSlot).replaceWith(transcludedItem);
         }
       });
+
+      es.search({
+        index: '.kibana',
+        body: {
+          query: {
+            match: {
+              _id:  "metadashboard"
+            }
+          }
+        }
+      }).then(function (resp) {
+        scope.$root.metadash = resp.hits.hits[0]._source.metadashboard;
+      })
+
+      scope.$root.appTitleCustom = "GrimoireLab"
+      es.search({
+        index: '.kibana',
+        body: {
+          query: {
+            match: {
+              _id:  "projectname"
+            }
+          }
+        }
+      }).then(function (resp) {
+        scope.$root.appTitleCustom = resp.hits.hits[0]._source.projectname.name;
+      })
     }
   };
 });

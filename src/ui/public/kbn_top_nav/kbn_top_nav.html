@@ -30,16 +30,16 @@
     <span class="fa fa-chevron-circle-up" ng-click="showNewMenu = false"></span>
   </button>
 
-  <div class="kuiLocalDropdownPanels" ng-repeat="(subitemName, subitemValue) in currentPanelsons">
+  <div class="kuiLocalDropdownPanels">
     <!-- Left panel -->
-    <div class="kuiLocalDropdownPanel kuiLocalDropdownPanel--left">
+    <div class="kuiLocalDropdownPanel kuiLocalDropdownPanel" ng-repeat="(subitemName, subitemValue) in currentPanelsons">
       <!-- Title -->
       <a class="kuiLocalDropdownTitle newLocalDropdownTitle" href="#/dashboard/{{subitemValue}}">{{subitemName}}</a>
 
       <!-- Help text -->
-      <div class="kuiLocalDropdownHelpText newLocalDropdownTitle">
+      <!--div class="kuiLocalDropdownHelpText newLocalDropdownTitle">
         Here's some help text to explain the purpose of the panel.
-      </div>
+      </div-->
     </div>
   </div>
 </div>

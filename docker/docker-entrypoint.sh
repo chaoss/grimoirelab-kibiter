@@ -23,6 +23,10 @@ if [ "$1" = 'kibana' ]; then
                 sed -e "s|^# server.basePath: \"\".*$|server.basePath: \"$BASE_PATH\"|" -i /opt/kibana/config/kibana.yml
         fi
 
+        if [ "$KIBANA_DEFAULTAPPID" != "" ]; then
+                sed -i "s/^#kibana.defaultAppId.*/kibana.defaultAppId: $KIBANA_DEFAULTAPPID/" /opt/kibana/config/kibana.yml
+        fi
+
         if [ "$PROJECT_NAME" != "" ]; then
                 sed -e "s/'title': ''$/'title': '$PROJECT_NAME'/" -i /opt/kibana/src/core_plugins/kibana/public/kibana.js
         fi

@@ -25,7 +25,7 @@ if [ "$1" = 'kibana' ]; then
         fi
 
         if [ "$KIBANA_DEFAULTAPPID" != "" ]; then
-                sed -i "s/^#kibana.defaultAppId.*/kibana.defaultAppId: $KIBANA_DEFAULTAPPID/" /opt/kibana/config/kibana.yml
+                sed -i "s|^#kibana.defaultAppId.*|kibana.defaultAppId: $KIBANA_DEFAULTAPPID|" /opt/kibana/config/kibana.yml
         fi
 
         if [ "$PROJECT_NAME" != "" ]; then

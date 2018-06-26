@@ -31,6 +31,10 @@ if [ "$1" = 'kibana' ]; then
                 sed -e "s|^#elasticsearch.password:.*$|elasticsearch.password: \"$ELASTICSEARCH_PASSWORD\"|" -i /opt/kibana/config/kibana.yml
         fi
 
+        if [ "$SUPPORT_ADDRESS" != "" ]; then
+                sed -e "s|^#searchguard.basicauth.login.contact_email:.*$|searchguard.basicauth.login.contact_email: \"$SUPPORT_ADDRESS\"|" -i /opt/kibana/config/kibana.yml
+        fi
+
 	set -- gosu kibana "$@"
 fi
 

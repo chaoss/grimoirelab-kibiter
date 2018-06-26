@@ -85,6 +85,7 @@ RUN apt-get update && \
     echo 'elasticsearch.url: "https://localhost:9200"' >> /opt/kibana/config/kibana.yml && \
     echo 'elasticsearch.ssl.verificationMode: none' >> /opt/kibana/config/kibana.yml && \
     echo 'searchguard.basicauth.enabled: true' >> /opt/kibana/config/kibana.yml && \
+    echo '#searchguard.basicauth.login.contact_email:' >> /opt/kibana/config/kibana.yml && \
 
     cd /root && \
     # cleanup to thin the final image

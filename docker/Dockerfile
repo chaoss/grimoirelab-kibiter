@@ -53,23 +53,26 @@ RUN apt-get update && \
     cd /opt/kibana/plugins && \
     git clone https://github.com/dlumbrer/kbn_dotplot.git -b 6-dev && \
     cd kbn_dotplot && \
+    git checkout b2cb2e2b1ec1c878f0e1f30c3ccdf53d671b91e8 && \
     npm install  && \
     cd .. && \
     # Install polar plugin: https://github.com/dlumbrer/kbn_polar
     cd /opt/kibana/plugins && \
     git clone https://github.com/dlumbrer/kbn_polar.git -b 6-dev && \
     cd kbn_polar && \
+    git checkout d5c12750e9b922342371828c01693ffa8ae957b2 && \
     npm install  && \
     cd .. && \
     # Install radar plugin: https://github.com/dlumbrer/kbn_radar
     cd /opt/kibana/plugins && \
     git clone https://github.com/dlumbrer/kbn_radar.git -b 6-dev && \
     cd kbn_radar && \
+    git checkout c69104e17c7519b4a3ec40b24a7f4e5d8ce5eb2b && \
     npm install  && \
     cd .. && \
     # Install network plugin: https://dlumbrer.github.io/kbn_network/
     cd /opt/kibana/plugins && \
-    git clone https://github.com/dlumbrer/kbn_network.git network_vis -b 6-dev && \
+    git clone https://github.com/dlumbrer/kbn_network.git network_vis -b 6.2-dev && \
     cd network_vis && \
     npm install  && \
     cd .. && \

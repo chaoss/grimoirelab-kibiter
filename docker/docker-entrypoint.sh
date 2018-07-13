@@ -25,8 +25,11 @@ if [ "$1" = 'kibana' ]; then
         fi
 
         if [ "$ELASTICSEARCH_USER" != "" ]; then
-                #elasticsearch.username: "user"
-                #elasticsearch.password: "pass"
+                sed -e "s|^#elasticsearch.username:.*$|elasticsearch.username: \"$ELASTICSEARCH_USER\"|" -i /opt/kibana/config/kibana.yml
+                sed -e "s|^#elasticsearch.password:.*$|elasticsearch.password: \"$ELASTICSEARCH_PASSWORD\"|" -i /opt/kibana/config/kibana.yml
+	else
+                ELASTICSEARCH_USER="kibanaserver"
+                ELASTICSEARCH_PASSWORD="kibanaserver"
                 sed -e "s|^#elasticsearch.username:.*$|elasticsearch.username: \"$ELASTICSEARCH_USER\"|" -i /opt/kibana/config/kibana.yml
                 sed -e "s|^#elasticsearch.password:.*$|elasticsearch.password: \"$ELASTICSEARCH_PASSWORD\"|" -i /opt/kibana/config/kibana.yml
         fi

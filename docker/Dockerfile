@@ -82,10 +82,6 @@ RUN apt-get update && \
     unzip searchguard-biter-6.1.0-10-3.zip && \
     cd .. && \
     # Add Search-Guard configuration to kibana.yml
-    echo 'server.host: 0.0.0.0' >> /opt/kibana/config/kibana.yml && \
-    echo 'elasticsearch.username: "kibanaserver"' >> /opt/kibana/config/kibana.yml && \
-    echo 'elasticsearch.password: "kibanaserver"' >> /opt/kibana/config/kibana.yml && \
-    echo 'elasticsearch.url: "https://localhost:9200"' >> /opt/kibana/config/kibana.yml && \
     echo 'elasticsearch.ssl.verificationMode: none' >> /opt/kibana/config/kibana.yml && \
     echo 'searchguard.basicauth.enabled: true' >> /opt/kibana/config/kibana.yml && \
     echo '#searchguard.basicauth.login.contact_email:' >> /opt/kibana/config/kibana.yml && \

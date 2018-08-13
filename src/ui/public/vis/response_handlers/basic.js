@@ -51,21 +51,30 @@ const BasicResponseHandlerProvider = function (Private) {
         if (response.aggregations) {
           var aggs = response.aggregations[_.keys(response.aggregations)[0]];
           if (aggs.sum_other_doc_count) {
-            if (aggs.buckets[0][1]) {
-               // Unique count
-               aggs.buckets.push({
-                 '1': {"value": aggs.sum_other_doc_count},
-                 'key':'Others',
-                 'doc_count': aggs.sum_other_doc_count
-               });
-             }
-
-            else {
-                // Add another bucket with sum_other_doc_count
+            // Check that it is only a one level bucket
+            let oneLevel = true
+            _.keys(aggs.buckets[0]).forEach(function (key){
+              if(aggs.buckets[0][key].buckets){
+                oneLevel = false
+              }
+            });
+            if(oneLevel){
+              if (aggs.buckets[0][1]) {
+                // Unique count
                 aggs.buckets.push({
+                  '1': {"value": aggs.sum_other_doc_count},
                   'key':'Others',
                   'doc_count': aggs.sum_other_doc_count
                 });
+              }
+
+              else {
+                  // Add another bucket with sum_other_doc_count
+                  aggs.buckets.push({
+                    'key':'Others',
+                    'doc_count': aggs.sum_other_doc_count
+                  });
+              }
             }
           }
         }

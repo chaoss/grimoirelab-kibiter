@@ -24,6 +24,8 @@ module.directive('globalNav', (es, kbnIndex, globalNavState, chrome) => {
       // App switcher functionality.
       function updateGlobalNav() {
         const isOpen = globalNavState.isOpen();
+        const isSecondOpen = globalNavState.isSecondOpen();
+        scope.isSecondNavOpen = isSecondOpen;
         scope.isGlobalNavOpen = isOpen;
         scope.globalNavToggleButton = {
           classes: isOpen ? 'global-nav-link--close' : undefined,
@@ -48,8 +50,59 @@ module.directive('globalNav', (es, kbnIndex, globalNavState, chrome) => {
       scope.toggleGlobalNav = event => {
         event.preventDefault();
         globalNavState.setOpen(!globalNavState.isOpen());
+        if(globalNavState.isSecondOpen()) {
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+          scope.actualPanel = undefined;
+        }
       };
 
+      scope.toggleSecondNav = (panel, event) => {
+        //Open first nav-bar
+        if(!globalNavState.isOpen()){
+          globalNavState.setOpen(!globalNavState.isOpen())
+        }
+        //If clicking in the same panel, it must be open/close
+        if(panel == scope.actualPanel){
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+          if(!globalNavState.isSecondOpen()){
+            //If closed, hide the space
+            scope.actualPanel = undefined;
+          }
+          return;
+        }
+        //If clickng in other panel
+        scope.actualPanel = panel;
+        if(!globalNavState.isSecondOpen()){
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+        }
+      };
+
+      /*
+      * Function that changes the CSS of the item that was clicked
+      */
+      scope.selectedItem = 0;
+      scope.$root.itemClicked = ($index) => {
+        scope.selectedItem = $index;
+        //Close second nav if it was open
+        if(globalNavState.isSecondOpen()) {
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+          scope.actualPanel = undefined;
+        }
+      };
+
+      /*
+      * Function that closes the second nav if it was open
+      */
+      scope.$root.closeSecondNav = () => {
+        if(globalNavState.isSecondOpen()) {
+          globalNavState.setSecondOpen(!globalNavState.isSecondOpen());
+          scope.actualPanel = undefined;
+      }
+      };
+
+      //Default menu of Kibana by default
+      scope.$root.showDefaultMenu = true;
+      //get metadashboard
       es.search({
        index: '.kibana',
        body: {
@@ -60,7 +113,9 @@ module.directive('globalNav', (es, kbnIndex, globalNavState, chrome) => {
          }
        }
       }).then(function (resp) {
-      	scope.metadash = resp.hits.hits[0]._source.metadashboard;
+      	scope.$root.metadash = resp.hits.hits[0]._source.metadashboard;
+        scope.$root.loadedMetadashboard = true;
+        scope.$root.showDefaultMenu = false;
       })
 
       scope.$root.appTitleCustom = "GrimoireLab"

@@ -14,7 +14,10 @@ export function AggTypesMetricsPercentilesProvider(Private) {
   const valueProps = {
     makeLabel: function () {
       const label = this.params.customLabel || this.getFieldDisplayName();
-      return ordinalSuffix(this.key) + ' percentile of ' + label;
+      if(this.params.customLabel && this.type.name === 'median'){
+        return label;
+      }
+      return label + ' - ' + this.key + '%';
     }
   };
 

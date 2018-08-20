@@ -118,7 +118,7 @@ module.directive('globalNav', (es, kbnIndex, globalNavState, chrome) => {
         scope.$root.showDefaultMenu = false;
       })
 
-      scope.$root.appTitleCustom = "GrimoireLab"
+      scope.$root.appTitleCustom = "Bitergia"
       es.search({
        index: '.kibana',
        body: {

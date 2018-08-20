@@ -1,5 +1,6 @@
 import { execFile } from 'child_process';
 import { all, fromNode } from 'bluebird';
+import { fromRoot } from '../../src/utils';
 
 export default (grunt) => {
   const { config, log } = grunt;
@@ -22,7 +23,7 @@ export default (grunt) => {
       if (/^win/.test(process.platform)) {
         tarArguments.push('--force-local');
       }
-
+      await exec('cp', ['-rf', fromRoot("plugins/"), fromRoot("build/" + buildName + "/.")]);
       await exec('tar', tarArguments);
     }
   }

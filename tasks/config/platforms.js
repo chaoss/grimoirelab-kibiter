@@ -20,7 +20,7 @@ module.exports = function (grunt) {
 
     const nodeShaSums = `${baseUri}/SHASUMS256.txt`;
 
-    const buildName = `kibana-${version}-${name}`;
+    const buildName = `kibiter-${version}-${name}`;
     const buildDir = resolve(rootPath, `build/${buildName}`);
 
     const tarName = `${buildName}.tar.gz`;
@@ -37,11 +37,11 @@ module.exports = function (grunt) {
     let rpmArch;
     if (name.match('linux')) {
       debArch = 'amd64';
-      debName = `kibana-${version}-${debArch}.deb`;
+      debName = `kibiter-${version}-${debArch}.deb`;
       debPath = resolve(rootPath, `target/${debName}`);
 
       rpmArch = 'x86_64';
-      rpmName = `kibana-${version}-${rpmArch}.rpm`;
+      rpmName = `kibiter-${version}-${rpmArch}.rpm`;
       rpmPath = resolve(rootPath, `target/${rpmName}`);
     }
     return {

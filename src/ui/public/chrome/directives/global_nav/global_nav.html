@@ -32,11 +32,56 @@
   <!-- Links -->
   <div class="global-nav__links">
     <!-- Main apps -->
-    <div class="global-nav__links-section">
+    <!-- div class="global-nav__links-section">
       <app-switcher
         chrome="chrome"
       ></app-switcher>
+    </div -->
+
+    <!-- Metadashboard Links: Bitergia hack -->
+    <div class="global-nav__links-section">
+        <div class="global-nav-link" ng-repeat="(name, panel) in metadash">
+          <!-- One level menu entry (no submenus) -->
+          <span ng-if="panel.length">
+            <a
+              class='global-nav-link__anchor' href='#/dashboard/{{panel}}'>
+              <div class='global-nav-link__icon'>
+              <!-- testing icon -->
+              <img class="global-nav-link__icon-image ng-scope"
+                kbn-src="/plugins/kibana/assets/discover.svg"
+                src="/plugins/kibana/assets/discover.svg">
+              </div>
+              <div class='global-nav-link__title'>
+                {{name}}
+              </div>
+            </a>
+          </span>
+          <span ng-if="!panel.length">
+            <!-- Menu entry with submenus -->
+            <a ng-click="showMenu =! showMenu"
+              class='global-nav-link__anchor' href=''>
+              <div class='global-nav-link__icon'>
+              <!-- testing icon -->
+              <img class="global-nav-link__icon-image ng-scope"
+                kbn-src="/plugins/kibana/assets/discover.svg"
+                src="/plugins/kibana/assets/discover.svg">
+              </div>
+              <div class='global-nav-link__title'>
+                {{name}}
+              </div>
+            </a>
+            <div ng-if="showMenu">
+              <ul style='list-style: none;'>
+                <li ng-repeat="(name, url) in panel">
+                  <a  class='global-nav-link__anchor'
+                    href='#/dashboard/{{url}}'>{{name}}</a>
+                </li>
+              </ul>
+            </div>
+        </span>
+      </div>
     </div>
+
 
     <!-- Bottom button -->
     <div class="global-nav__links-section">

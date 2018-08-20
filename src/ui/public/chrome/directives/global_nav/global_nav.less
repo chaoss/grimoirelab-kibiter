@@ -11,7 +11,8 @@
   top: 0;
   bottom: 0;
   z-index: 0;
-  background-color: #005571;
+  //background-color: #005571;
+  background-color: #333;
   overflow: hidden;
 
   &.is-global-nav-open {
@@ -32,18 +33,18 @@
     width: @global-nav-open-width;
     list-style-type: none;
     &.kibana {
-      background-image: url("~ui/images/kibana.svg");
-      background-position: 10px 10px;
+      background-image: url("~ui/images/grimoire-dashboard.svg");
+      background-position: 3px 10px;
       background-size: 120px 50px;
       background-repeat: no-repeat;
-      background-color: #005571;
+      background-color: #000;
     }
   }
 }
 
   /**
    * 1. Push main apps to the top and bottom buttons to the bottom.
-   * 2. Fill height of global nav, but respect the height of the logo.
+   * 2. Fill height of global nav, but respect the height of the logo and {{appTitle}} text.
    * 3. Allow user to scroll to see clipped nav items when the nav is too short.
    * 4. Style the scrollbar to look good in Chrome and Safari.
    */
@@ -51,7 +52,7 @@
     display: flex; /* 1 */
     flex-direction: column; /* 1 */
     justify-content: space-between; /* 1 */
-    height: ~"calc(100% - @{global-nav-logo-height})"; /* 2 */
+    height: ~"calc(100% - @{global-nav-logo-height} - 25px)"; /* 2 */
     overflow-x: hidden; /* 3 */
     overflow-y: auto; /* 3 */
 
@@ -76,5 +77,7 @@
      *    This problem is specific to Safari.
      */
     .global-nav__links-section {
+      /* Z-indez increased to avoid issues with GrimoireLab and Grimoire Lab side links*/
       flex: 0 0 auto; /* 1 */
+      z-index: 1;
     }

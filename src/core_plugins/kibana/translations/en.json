@@ -1,4 +1,4 @@
 {
-  "UI-WELCOME_MESSAGE": "Loading Kibana",
+  "UI-WELCOME_MESSAGE": "Loading Kibiter",
   "UI-WELCOME_ERROR": "Kibana did not load properly. Check the server output for more information."
 }

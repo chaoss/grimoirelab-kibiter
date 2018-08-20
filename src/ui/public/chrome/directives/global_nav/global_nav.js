@@ -62,6 +62,20 @@ module.directive('globalNav', (es, kbnIndex, globalNavState, chrome) => {
       }).then(function (resp) {
       	scope.metadash = resp.hits.hits[0]._source.metadashboard;
       })
+
+      scope.$root.appTitleCustom = "GrimoireLab"
+      es.search({
+       index: '.kibana',
+       body: {
+         query: {
+           match: {
+             _id:  "projectname"
+           }
+         }
+       }
+      }).then(function (resp) {
+      	scope.$root.appTitleCustom = resp.hits.hits[0]._source.projectname.name;
+      })
     }
   };
 });

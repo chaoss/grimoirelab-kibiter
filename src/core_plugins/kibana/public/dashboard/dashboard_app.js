@@ -318,26 +318,7 @@ app.directive('dashboardApp', function ($injector) {
       navActions[TopNavIds.FULL_SCREEN] = () =>
         dashboardStateManager.setFullScreenMode(true);
       navActions[TopNavIds.EXIT_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.VIEW);
-      navActions[TopNavIds.ENTER_EDIT_MODE] = () => {
-        /* Force POST to see the HTTP login auth */
-        function allowLogin() {
-          return es.update({
-            index: kbnIndex,
-            ignore: [404],
-            type: 'doc',
-            id: 'metadashboard',
-            body: {
-              query: {
-                doc: {}
-              }
-            }
-          });
-        }
-        allowLogin().then(function () { //results) {
-          //console.log('OK', results)
-          onChangeViewMode(DashboardViewMode.EDIT);
-        });
-      };
+      navActions[TopNavIds.ENTER_EDIT_MODE] = () => onChangeViewMode(DashboardViewMode.EDIT);
       navActions[TopNavIds.CLONE] = () => {
         const currentTitle = $scope.model.title;
         const onClone = (newTitle) => {

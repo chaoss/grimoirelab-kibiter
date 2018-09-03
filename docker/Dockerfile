@@ -75,8 +75,8 @@ RUN apt-get update && \
     cd .. && \
     # Install Search-Guard Custom Bitergia plugin: https://github.com/Bitergia/search-guard-kibana-plugin
     cd /opt/kibana/plugins && \
-    wget https://github.com/Bitergia/search-guard-kibana-plugin/releases/download/biter-v6.1.0-12-1/searchguard-biter-6.1.0-12-1.zip && \
-    unzip searchguard-biter-6.1.0-12-1.zip && \
+    wget https://github.com/Bitergia/search-guard-kibana-plugin/releases/download/biter-v6.1.0-12-3/searchguard-biter-6.1.0-12-3.zip && \
+    unzip searchguard-biter-6.1.0-12-3.zip && \
     cd .. && \
     # Add Search-Guard configuration to kibana.yml
     echo 'elasticsearch.ssl.verificationMode: none' >> /opt/kibana/config/kibana.yml && \

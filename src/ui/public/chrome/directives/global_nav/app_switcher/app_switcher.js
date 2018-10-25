@@ -3,6 +3,9 @@ import { parse } from 'url';
 import { uiModules } from 'ui/modules';
 import appSwitcherTemplate from './app_switcher.html';
 
+import { redirectAnonymousUser } from 'ui/kibiter/hide_apps/hide_menu_items'
+import { hideMenuItems } from '../../../../kibiter/hide_apps/hide_menu_items';
+
 uiModules
   .get('kibana')
   .provider('appSwitcherEnsureNavigation', function () {
@@ -56,6 +59,8 @@ uiModules
         }
 
         this.links = $scope.chrome.getNavLinks();
+
+        hideMenuItems(this.links)
 
         // links don't cause full-navigation events in certain scenarios
         // so we force them when needed

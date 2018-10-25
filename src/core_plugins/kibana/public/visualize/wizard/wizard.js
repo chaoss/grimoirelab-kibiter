@@ -15,6 +15,8 @@ import visualizeWizardStep1Template from './step_1.html';
 import visualizeWizardStep2Template from './step_2.html';
 import { SavedObjectsClientProvider } from 'ui/saved_objects';
 
+import { redirectAnonymousUser } from 'ui/kibiter/hide_apps/redirect_anonymous_user'
+
 const module = uiModules.get('app/visualize', ['kibana/courier']);
 
 /********
@@ -23,10 +25,16 @@ const module = uiModules.get('app/visualize', ['kibana/courier']);
 
 // Redirect old route to new route.
 routes.when('/visualize/step/1', {
+  resolve: {
+    isAllowedUser: redirectAnonymousUser
+  },
   redirectTo: VisualizeConstants.WIZARD_STEP_1_PAGE_PATH,
 });
 
 routes.when(VisualizeConstants.WIZARD_STEP_1_PAGE_PATH, {
+  resolve: {
+    isAllowedUser: redirectAnonymousUser
+  },
   template: visualizeWizardStep1Template,
   controller: 'VisualizeWizardStep1',
 });
@@ -183,6 +191,9 @@ module.controller('VisualizeWizardStep1', function ($scope, $route, kbnUrl, time
 // NOTE: Accessing this route directly means the user has entered into the wizard UX without
 // selecting a Visualization type in step 1. So we want to redirect them to step 1, not step 2.
 routes.when('/visualize/step/2', {
+  resolve: {
+    isAllowedUser: redirectAnonymousUser
+  },
   redirectTo: VisualizeConstants.WIZARD_STEP_1_PAGE_PATH,
 });
 
@@ -198,7 +209,8 @@ routes.when(VisualizeConstants.WIZARD_STEP_2_PAGE_PATH, {
         fields: ['title'],
         perPage: 10000
       }).then(response => response.savedObjects);
-    }
+    },
+    isAllowedUser: redirectAnonymousUser
   }
 });
 

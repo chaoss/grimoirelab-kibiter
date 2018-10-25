@@ -1,6 +1,8 @@
 import uiRoutes from 'ui/routes';
 import template from './index.html';
 
+import { redirectNonBitergiaUser } from 'ui/kibiter/hide_apps/redirect_non_bitergia_user'
+
 require('ace');
 require('ui-bootstrap-custom');
 
@@ -17,6 +19,9 @@ require('./src/directives/sense_welcome');
 
 
 uiRoutes.when('/dev_tools/console', {
+  resolve: {
+    isAllowedUser: redirectNonBitergiaUser
+  },
   controller: 'SenseController',
   template
 });

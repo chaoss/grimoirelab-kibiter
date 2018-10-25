@@ -22,6 +22,8 @@ import { KibanaParsedUrl } from 'ui/url/kibana_parsed_url';
 import { absoluteToParsedUrl } from 'ui/url/absolute_to_parsed_url';
 import { migrateLegacyQuery } from 'ui/utils/migrateLegacyQuery';
 
+import { redirectAnonymousUser } from 'ui/kibiter/hide_apps/redirect_anonymous_user'
+
 uiRoutes
   .when(VisualizeConstants.CREATE_PATH, {
     template: editorTemplate,
@@ -39,7 +41,8 @@ uiRoutes
           .catch(courier.redirectWhenMissing({
             '*': '/visualize'
           }));
-      }
+      },
+      isAllowedUser: redirectAnonymousUser
     }
   })
   .when(`${VisualizeConstants.EDIT_PATH}/:id`, {
@@ -53,7 +56,8 @@ uiRoutes
             'index-pattern': '/management/kibana/objects/savedVisualizations/' + $route.current.params.id,
             'index-pattern-field': '/management/kibana/objects/savedVisualizations/' + $route.current.params.id
           }));
-      }
+      },
+      isAllowedUser: redirectAnonymousUser
     }
   });
 

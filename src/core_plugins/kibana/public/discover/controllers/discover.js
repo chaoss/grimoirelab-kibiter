@@ -31,6 +31,8 @@ import { migrateLegacyQuery } from 'ui/utils/migrateLegacyQuery';
 import { FilterManagerProvider } from 'ui/filter_manager';
 import { SavedObjectsClientProvider } from 'ui/saved_objects';
 
+import { redirectAnonymousUser } from 'ui/kibiter/hide_apps/redirect_anonymous_user'
+
 const app = uiModules.get('apps/discover', [
   'kibana/notify',
   'kibana/courier',
@@ -45,6 +47,7 @@ uiRoutes
     template: indexTemplate,
     reloadOnSearch: false,
     resolve: {
+      isAllowedUser: redirectAnonymousUser,
       ip: function (Promise, courier, config, $location, Private) {
         const State = Private(StateProvider);
         const savedObjectsClient = Private(SavedObjectsClientProvider);

@@ -10,13 +10,21 @@ import { management } from 'ui/management';
 import { FeatureCatalogueRegistryProvider, FeatureCatalogueCategory } from 'ui/registry/feature_catalogue';
 import 'ui/kbn_top_nav';
 
+import { redirectNonBitergiaUser } from 'ui/kibiter/hide_apps/redirect_non_bitergia_user'
+
 uiRoutes
   .when('/management', {
+    resolve: {
+      isAllowedUser: redirectNonBitergiaUser
+    },
     template: landingTemplate
   });
 
 uiRoutes
   .when('/management/:section', {
+    resolve: {
+      isAllowedUser: redirectNonBitergiaUser
+    },
     redirectTo: '/management'
   });
 

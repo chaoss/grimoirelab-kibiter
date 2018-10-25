@@ -6,6 +6,8 @@ import { SavedObjectRegistryProvider } from 'ui/saved_objects/saved_object_regis
 import { notify } from 'ui/notify';
 import { timezoneProvider } from 'ui/vis/lib/timezone';
 
+import { redirectAnonymousUser } from 'ui/kibiter/hide_apps/redirect_anonymous_user'
+
 require('plugins/timelion/directives/cells/cells');
 require('plugins/timelion/directives/fixed_element');
 require('plugins/timelion/directives/fullscreen/fullscreen');
@@ -42,7 +44,8 @@ require('ui/routes')
           .catch(courier.redirectWhenMissing({
             'search': '/'
           }));
-      }
+      },
+      isAllowedUser: redirectAnonymousUser
     }
   });
 

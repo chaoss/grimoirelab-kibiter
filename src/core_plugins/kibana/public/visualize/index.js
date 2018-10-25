@@ -15,11 +15,16 @@ import { VisualizeListingController } from './listing/visualize_listing';
 import { VisualizeConstants } from './visualize_constants';
 import { FeatureCatalogueRegistryProvider, FeatureCatalogueCategory } from 'ui/registry/feature_catalogue';
 
+import { redirectAnonymousUser } from 'ui/kibiter/hide_apps/redirect_anonymous_user'
+
 uiRoutes
   .defaults(/visualize/, {
     requireDefaultIndex: true
   })
   .when(VisualizeConstants.LANDING_PAGE_PATH, {
+    resolve: {
+      isAllowedUser: redirectAnonymousUser
+    },
     template: visualizeListingTemplate,
     controller: VisualizeListingController,
     controllerAs: 'listingController',

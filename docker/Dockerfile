@@ -34,6 +34,7 @@ RUN apt-get update && \
 
     # install kibiter
     # gems needed in Kibana > 5.x to build binary packages
+    gem install rake && \
     gem install ffi && \
     gem install fpm -v 1.5.0 && \
     gem install pleaserun -v 0.0.24 && \

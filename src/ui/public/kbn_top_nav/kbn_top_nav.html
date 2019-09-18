@@ -38,7 +38,7 @@
           <ul class="list-unstyled">
             <li ng-repeat="subitem in currentPanelsons[i]" class="ng-scope">
               <a ng-mouseover="showDescription(subitem)" ng-mouseleave="hideDescription()" class="kuiLink submenuitem"
-                tabindex="0" role="button" ng-click="redirectToPanel(subitem.panel_id)">{{subitem.name}}</a>
+                tabindex="0" role="button" ng-click="redirectToPanel(subitem.name, subitem.panel_id)">{{subitem.name}}</a>
             </li>
           </ul>
         </div>

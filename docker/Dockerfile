@@ -74,6 +74,10 @@ RUN apt-get update && \
     cd network_vis && \
     npm install  && \
     cd .. && \
+    # Install kibana-enchanced table plugin: https://github.com/fbaligand/kibana-enhanced-table
+    cd /opt/kibana && \
+    ./bin/kibana-plugin install https://github.com/fbaligand/kibana-enhanced-table/releases/download/v1.1.0/enhanced-table-1.1.0_6.1.4.zip && \
+    cd .. && \
     # Install Search-Guard Custom Bitergia plugin: https://github.com/Bitergia/search-guard-kibana-plugin
     cd /opt/kibana/plugins && \
     wget https://github.com/Bitergia/search-guard-kibana-plugin/releases/download/biter-v6.1.0-12-3/searchguard-biter-6.1.0-12-3.zip && \

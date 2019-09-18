@@ -67,6 +67,10 @@ RUN apt-get update && \
     cd kbn_radar && \
     npm install  && \
     cd .. && \
+    # Install kibana-enchanced table plugin: https://github.com/fbaligand/kibana-enhanced-table
+    cd /opt/kibana && \
+    ./bin/kibana-plugin install https://github.com/fbaligand/kibana-enhanced-table/releases/download/v1.1.0/enhanced-table-1.1.0_6.1.4.zip && \
+    cd .. && \
     # Install network plugin: https://dlumbrer.github.io/kbn_network/
     git clone https://github.com/dlumbrer/kbn_network.git network_vis -b 6.2-dev && \
     cd network_vis && \

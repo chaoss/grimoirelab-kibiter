@@ -5,7 +5,7 @@ export function renderKibiterMenu($scope) {
 
     $scope.showInfo = (item) => {
         if (item.type === "entry") {
-            $scope.redirectToPanel(item.panel_id)
+            $scope.redirectToPanel(item.name, item.panel_id)
         } else if (item.type === "menu") {
             if ($scope.parentDashboard === item) {
                 closeSubmenu($scope)
@@ -25,9 +25,13 @@ export function renderKibiterMenu($scope) {
         $scope.showDescriptionDiv = false;
     }
 
-    $scope.redirectToPanel = (panel_id) => {
+    $scope.redirectToPanel = (name, panel_id) => {
         $scope.showKibiterMenu = false;
-        window.location.replace(window.location.href.split("app/")[0] + "app/kibana#/dashboard/" + panel_id)
+        if (name === "Contact") {
+            window.location.replace(panel_id)
+        } else {
+            window.location.replace(window.location.href.split("app/")[0] + "app/kibana#/dashboard/" + panel_id)
+        }
     }
 
     const showSubmenu = ($scope, item) => {

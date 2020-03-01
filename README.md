@@ -68,7 +68,7 @@ Kibiter has several plugins installed by default, they improve the user customiz
 - [Searchtables plugin](https://github.com/dlumbrer/kbn_searchtables) improves Kibiter tables by adding a search box to perform searches without applying filters.
 - [Radar plugin](https://github.com/dlumbrer/kbn_radar) allows to explore the data using radar visualizations.
 - [Dot plot plugin](https://github.com/dlumbrer/kbn_dotplot) empowers Kibiter with dot-plot visualizations, granting  to add metrics in both X and Y axis.
-- [Polar plugin](https://github.com/dlumbrer/kbn_network) enhances Kibiter with polar visualizations for your data.
+- [Polar plugin](https://github.com/dlumbrer/kbn_polar) enhances Kibiter with polar visualizations for your data.
 
 ## Version compatibility with Elasticsearch
 

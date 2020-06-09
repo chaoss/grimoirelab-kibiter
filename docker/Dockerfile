@@ -42,8 +42,8 @@ RUN gem install rake && \
     gem install fpm -v 1.5.0 && \
     gem install pleaserun -v 0.0.24
     # Download Kibiter release
-RUN curl -o /tmp/kibiter-6.8.6-linux-x86_64-2.tar.gz -sSL https://github.com/chaoss/grimoirelab-kibiter/releases/download/community-v6.8.6-2/kibiter-6.8.6-linux-x86_64-2.tar.gz && \
-    tar xfz /tmp/kibiter-6.8.6-linux-x86_64-2.tar.gz --directory /opt && \
+RUN curl -o /tmp/kibiter-6.8.6-linux-x86_64-3.tar.gz -sSL https://github.com/chaoss/grimoirelab-kibiter/releases/download/community-v6.8.6-3/kibiter-6.8.6-linux-x86_64-3.tar.gz && \
+    tar xfz /tmp/kibiter-6.8.6-linux-x86_64-3.tar.gz --directory /opt && \
     mv /opt/kibiter-6.8.6-linux-x86_64 /opt/kibana && \
     chown -R kibana:kibana /opt/kibana
     # Install dotplot plugin: https://github.com/dlumbrer/kbn_dotplot
